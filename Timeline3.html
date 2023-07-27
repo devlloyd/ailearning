@@ -39,13 +39,13 @@ var tooltip = d3.select("body").append("div")
 
 // Get the data
 var data = [
-    {event: "Attention is All You Need", year: "2017", link: "https://arxiv.org/pdf/1706.03762.pdf"},
-    {event: "Deep reinforcement learning from human preferences", year: "2017", link: "https://arxiv.org/pdf/1706.03741.pdf"},
-    {event: "Equivalence Between Policy Gradients and Soft Q-Learning", year: "2017", link: "https://arxiv.org/pdf/1704.06440.pdf"},
-    {event: "Improving Language Understanding by Generative Pre-Training", year: "2018", link: "https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf"},
-    {event: "An Empirical Model of Large-Batch Training", year: "2018", link: "https://arxiv.org/pdf/1812.06162.pdf"},
-    {event: "Scaling Laws for for Neural Language Models", year: "2020", link: "https://arxiv.org/pdf/2001.08361.pdf"},
-    {event: "Language Models are Few-Shot Learners", year: "2020", link: "https://arxiv.org/pdf/2005.14165.pdf"}
+    {event: "Attention is All You Need", year: "2017", link: "https://arxiv.org/pdf/1706.03762.pdf", description: "Introduced the concept of attention in neural networks."},
+    {event: "Deep reinforcement learning from human preferences", year: "2017", link: "https://arxiv.org/pdf/1706.03741.pdf", description: "introduced a way for computer programs to learn complex tasks by getting feedback from humans, rather than relying on predefined goals"},
+    {event: "Equivalence Between Policy Gradients and Soft Q-Learning", year: "2017", link: "https://arxiv.org/pdf/1704.06440.pdf", description: "helped bridge the gap between two major approaches to reinforcement learning: value-based methods and policy-based methods"},
+    {event: "Improving Language Understanding by Generative Pre-Training", year: "2018", link: "https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf", description: "showed that a computer program can get better at understanding and using language by first learning from lots of text, and then fine-tuning its knowledge with specific tasks."},
+    {event: "An Empirical Model of Large-Batch Training", year: "2018", link: "https://arxiv.org/pdf/1812.06162.pdf", description: "showed that there's an optimal size for the groups of examples used to train AI models, and this size can be predicted using a measure they call the 'gradient noise scale'."},
+    {event: "Scaling Laws for for Neural Language Models", year: "2020", link: "https://arxiv.org/pdf/2001.08361.pdf", description: " discovered that the performance of language models improves predictably as we increase the model size, dataset size, and compute power, and that the most efficient training involves using very large models and stopping before they fully learn the dataset."},
+    {event: "Language Models are Few-Shot Learners", year: "2020", link: "https://arxiv.org/pdf/2005.14165.pdf", description: "Showed that big language models can learn to do a variety of tasks well with just a few examples"}
 ];
 
 data.forEach(function(d) {
@@ -91,12 +91,13 @@ var dots = svg.selectAll("dot")
     .attr("cy", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) // Changed from 20 to 30
     .attr("fill", "red")
     .on("mouseover", function(d) {
-        tooltip.transition()
-        .duration(200)
-        .style("opacity", .9);
-        tooltip.html('<a href="' + d.link + '" target="_blank">Link to paper</a>')
-        .style("left", (d3.event.pageX + 5) + "px")
-        .style("top", (d3.event.pageY - 28) + "px");})
+    	tooltip.transition()
+    	.duration(200)
+    	.style("opacity", .9);
+   	 tooltip.html('<a href="' + d.link + '" target="_blank">Link to paper</a><br>' + d.description)
+   	 .style("left", (d3.event.pageX + 5) + "px")
+    	.style("top", (d3.event.pageY - 28) + "px");})
+
     .on("mouseout", function(d) {
         tooltip.transition()
         .duration(2000)
@@ -146,3 +147,4 @@ function copyToClipboard(element, popupId) {
 
 </body>
 </html>
+
