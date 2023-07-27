@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<body>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+
+// Set the dimensions of the canvas / graph
+var margin = {top: 30, right: 20, bottom: 30, left: 50},
+    width = 1200 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// Set the ranges
+var x = d3.scaleTime().range([0, width]);
+var y = d3.scalePoint().range([0, height]);
+
+// Define the axes
+var xAxis = d3.axisBottom(x).ticks(5);
+
+// Adds the svg canvas
+var svg = d3.select("body")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Create a tooltip
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", "absolute")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("cursor", "pointer");  // Change cursor to pointer on hover
+
+// Get the data
+var data = [
+    {event: "Attention is All You Need", year: "2017", link: "https://arxiv.org/pdf/1706.03762.pdf"},
+    {event: "Deep reinforcement learning from human preferences", year: "2017", link: "https://arxiv.org/pdf/1706.03741.pdf"},
+    {event: "Equivalence Between Policy Gradients and Soft Q-Learning", year: "2017", link: "https://arxiv.org/pdf/1704.06440.pdf"},
+    {event: "Improving Language Understanding by Generative Pre-Training", year: "2018", link: "https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf"},
+    {event: "An Empirical Model of Large-Batch Training", year: "2018", link: "https://arxiv.org/pdf/1812.06162.pdf"},
+    {event: "Scaling Laws for for Neural Language Models", year: "2020", link: "https://arxiv.org/pdf/2001.08361.pdf"},
+    {event: "Language Models are Few-Shot Learners", year: "2020", link: "https://arxiv.org/pdf/2005.14165.pdf"}
+];
+
+data.forEach(function(d) {
+    d.year = new Date(d.year);
+});
+
+// Scale the range of the data
+x.domain([new Date("2017"), new Date("2023")]);
+y.domain(data.map(function(d) { return d.event; }));
+
+// Add lines from points to the timeline
+svg.selectAll("line")
+    .data(data)
+  .enter().append("line")
+    .attr("x1", function(d) { return x(d.year); })
+    .attr("y1", height/2)
+    .attr("x2", function(d) { return x(d.year); })
+    .attr("y2", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) // Changed from 20 to 30
+    .attr("stroke", "black");
+
+// Add labels to the scatterplot points
+svg.selectAll(".text")
+    .data(data)
+  .enter().append("text")
+    .attr("x", function(d) { return x(d.year); })
+    .attr("y", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) // Changed from 20 to 30
+    .text(function(d) { return d.event; })
+    .attr("font-size", "10px")
+    .attr("dx", "10px");
+
+// Add the X Axis
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height/2 + ")")
+    .call(xAxis);
+
+// Add dots to the scatterplot
+var dots = svg.selectAll("dot")
+    .data(data)
+    .enter().append("circle")
+    .attr("r", 5)
+    .attr("cx", function(d) { return x(d.year); })
+    .attr("cy", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) // Changed from 20 to 30
+    .attr("fill", "red")
+    .on("mouseover", function(d) {
+        tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+        tooltip.html('<a href="' + d.link + '" target="_blank">Link to paper</a>')
+        .style("left", (d3.event.pageX + 5) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");})
+    .on("mouseout", function(d) {
+        tooltip.transition()
+        .duration(2000)
+        .style("opacity", 0);
+    });
+
+</script>
+
+<div style="margin-top: 20px; padding: 10px; border: 1px solid black; width: 80%; margin-left: auto; margin-right: auto;">
+    <h2>Tip:</h2>
+    <p>You can use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> PDF upload to help with digesting these papers.</p>
+    <p>Example prompts:</p>
+    <p class="copy-text" onclick="copyToClipboard(this, 'copy-popup')">&#128203; I am a recruiter at a top AI research lab. As a recruiter, I do not have a technical background, and have some trouble understanding the heavy language used in AI research papers. However, it is important for me to understand the fundamentals of AI for my job. Can I provide you a paper, and you summarize each section in a way that is targeted to a non-technical audience?</p>
+    <p class="copy-text" onclick="copyToClipboard(this, 'copy-popup')">&#128203; Can you give me each section but in a "explain like I'm 5" (ELI5) version?</p>
+    <p class="copy-text" onclick="copyToClipboard(this, 'copy-popup')">&#128203; Can you give me what the primary takeaway of the paper is, in plain language?</p>
+</div>
+
+<div id="copy-popup">Text copied!</div>
+
+<script>
+function copyToClipboard(element, popupId) {
+  var text = element.innerText;
+  var input = document.createElement('input');
+  input.setAttribute('value', text);
+  document.body.appendChild(input);
+  input.select();
+  var result = document.execCommand('copy');
+  document.body.removeChild(input)
+
+  if (result) {
+    var popup = document.getElementById(popupId);
+    popup.style.opacity = 1;
+    setTimeout(function() {
+      popup.style.opacity = 0;
+    }, 500);
+  }
+
+  return result;
+}
+</script>
+
+</body>
+</html>
+
