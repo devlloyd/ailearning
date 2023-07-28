@@ -40,6 +40,7 @@
 
 
 <body>
+<h2> A Timeline of AI Research Papers </h2>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 
@@ -106,7 +107,7 @@ svg.selectAll("line")
     .attr("y1", height/2)
     .attr("x2", function(d) { return x(d.year); })
     .attr("y2", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) // Changed from 20 to 30
-    .attr("stroke", "black");
+    .attr("stroke", "black")
 
 // Add labels to the scatterplot points
 svg.selectAll(".text")
@@ -125,6 +126,15 @@ svg.append("g")
     .call(xAxis);
 
 // Add dots to the scatterplot
+var outerDots = svg.selectAll("dot")
+    .data(data)
+    .enter().append("circle")
+    .attr("r", 10) // Increase the radius for the outer circle
+    .attr("cx", function(d) { return x(d.year); })
+    .attr("cy", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) 
+    .attr("fill", "white")
+    .attr("stroke", "black"); // Add a stroke to make the outer circle visible
+
 var dots = svg.selectAll("dot")
     .data(data)
     .enter().append("circle")
@@ -150,13 +160,15 @@ var dots = svg.selectAll("dot")
 
 <div style="margin-top: 20px; padding: 10px; border: 1px solid black; width: 80%; margin-left: auto; margin-right: auto; border-radius: 10px;">
     <h2>Tip:</h2>
-    <p>You can use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> PDF upload to help with digesting these papers.</p>
+    <p>You can use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> to help with understanding these papers.</p>
     <p>Example prompts (click to copy):</p>
-   <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; I am a recruiter at a top AI research lab. As a recruiter, I do not have a technical background, and have some trouble understanding the heavy language used in AI research papers. However, it is important for me to understand the fundamentals of AI for my job. Can I provide you a paper, and you summarize each section in a way that is targeted to a non-technical audience?</p>
+   <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; I am a recruiter at a top AI research lab. As a recruiter, I do not have a technical background, and have some trouble understanding the heavy language used in AI research papers. However, it is important for me to understand the fundamentals of AI for my job. Can I provide you a paper, and you summarize each section in a way that is similar to an "explain like I'm 5" (ELI5) explanation?</p>
 
-<p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me each section but in a "explain like I'm 5" (ELI5) version?</p>
+<p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me each section but in plain language that a young adult might understand?</p>
 
-<p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me what the primary takeaway of the paper is, in plain language?</p>
+<p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me the primary takeaway of the paper, in plain language?</p>
+
+<p> It is encouraged that you ask questions as you go along about anything you are unclear on. You'll likely be surprised how ambiguous questions are understood, and clarified. </p>
 
 </div>
 
@@ -189,7 +201,7 @@ function copyToClipboard(element, popupId) {
 
 </body>
 
-<h2>Example: 'Attention is All you need' explained by ChatGPT, two ways</h2>
+<h2>Example: 'Attention is All You Need' explained by ChatGPT, two ways</h2>
 
 
 
