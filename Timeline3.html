@@ -1,5 +1,43 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .tooltip {
+            cursor: pointer;
+        }
+        .collapse-content {
+            display: none;
+            margin-left: 1em;
+        }
+
+        .collapse-title::after {
+            content: " ▶";
+        }
+
+        .active::after {
+            content: " ▼";
+        }
+    </style>
+    <script>
+        function toggleCollapse(event) {
+            var row = event.target.parentElement.parentElement;
+            var contents = row.getElementsByClassName("collapse-content");
+            event.target.classList.toggle("active");
+            for (var i = 0; i < contents.length; i++) {
+                if (contents[i].style.display === "block") {
+                    contents[i].style.display = "none";
+                } else {
+                    contents[i].style.display = "block";
+                }
+            }
+        }
+    </script>
+</head>
+
 
 <body>
 <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -106,10 +144,10 @@ var dots = svg.selectAll("dot")
 
 </script>
 
-<div style="margin-top: 20px; padding: 10px; border: 1px solid black; width: 80%; margin-left: auto; margin-right: auto;">
+<div style="margin-top: 20px; padding: 10px; border: 1px solid black; width: 80%; margin-left: auto; margin-right: auto; border-radius: 10px;">
     <h2>Tip:</h2>
     <p>You can use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> PDF upload to help with digesting these papers.</p>
-    <p>Example prompts:</p>
+    <p>Example prompts (click to copy):</p>
    <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; I am a recruiter at a top AI research lab. As a recruiter, I do not have a technical background, and have some trouble understanding the heavy language used in AI research papers. However, it is important for me to understand the fundamentals of AI for my job. Can I provide you a paper, and you summarize each section in a way that is targeted to a non-technical audience?</p>
 
 <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me each section but in a "explain like I'm 5" (ELI5) version?</p>
@@ -146,4 +184,161 @@ function copyToClipboard(element, popupId) {
 
 
 </body>
+
+<h2>Example: 'Attention is All you need' explained by ChatGPT, two ways</h2>
+
+
+
+<table style="width:100%; border-collapse: collapse;" border="1">
+  <tr>
+    <th>ELI5</th>
+    <th>Plain language</th>
+  </tr>
+  <tr>
+   <td>
+<div class="collapse-title active" onclick="toggleCollapse(event)">
+  <b>Abstract</b>
+</div>
+<div class="collapse-content" style="display: block;">
+Imagine you're trying to build a toy car. Instead of using lots of different parts like wheels, axles, and gears, you find a way to build it using only Lego blocks. This is what the authors of the paper did with a type of computer program called a Transformer. It's simpler, works better, and is faster to build than other types of programs.
+</div>
+</td>
+    <td>
+<div class="collapse-title active" onclick="toggleCollapse(event)">
+  <b>Abstract</b>
+</div>
+<div class="collapse-content" style="display: block;">
+
+
+The paper introduces a new network architecture called the Transformer, which is based solely on attention mechanisms, eliminating the need for recurrent or convolutional neural networks. The Transformer performs better in quality, is more parallelizable, and requires less time to train than other models. It has been successfully applied to machine translation tasks and English constituency parsing.
+</td>
+  </tr>
+  <tr>
+    <td>
+
+ <div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>1. Introduction</b>
+        </div>
+        <div class="collapse-content">
+Think of a line of dominoes. You can't knock them all over at once; you have to start at one end and go one by one. This is how some computer programs work, and it can be slow. The authors made a new program, the Transformer, that doesn't have to go one by one. It can look at all the dominoes at the same time.
+</td>
+    <td>
+
+ <div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>1. Introduction</b>
+        </div>
+        <div class="collapse-content">
+The paper discusses the limitations of recurrent neural networks (RNNs), particularly their sequential nature which prevents parallelization within training examples. The authors propose the Transformer as a solution, which relies entirely on an attention mechanism to draw global dependencies between input and output.
+</td>
+  </tr>
+  <tr>
+    <td>
+
+ <div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>2. Background</b>
+        </div>
+        <div class="collapse-content">
+There are other ways to knock over all the dominoes at once, like using a big ruler to knock them over. But sometimes, the ruler doesn't reach all the dominoes, especially if they're far apart. The Transformer is like having a magic ruler that can stretch to reach any domino, no matter how far.
+</td>
+    <td>
+
+ <div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>2. Background</b>
+        </div>
+        <div class="collapse-content">
+The authors discuss other models that aim to reduce sequential computation, such as the Extended Neural GPU, ByteNet, and ConvS2S, which use convolutional neural networks. However, these models still have limitations in learning dependencies between distant positions. The Transformer overcomes this by using self-attention mechanisms.
+
+</td>
+  </tr>
+  <tr>
+    <td>
+
+ <div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3. Model Architecture</b>
+        </div>
+        <div class="collapse-content">
+The Transformer is like a factory with two conveyor belts (an encoder and a decoder). Each conveyor belt has several stations (layers). At each station, a worker (attention mechanism) looks at all the toys (data) on the belt at once and decides what to do next. The second conveyor belt has an extra worker who also looks at what the first conveyor belt did.
+
+</td>
+    <td>
+ <div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3. Model Architecture</b>
+        </div>
+        <div class="collapse-content">
+The Transformer follows an encoder-decoder structure. Both the encoder and decoder are composed of a stack of identical layers, each with two sub-layers: a multi-head self-attention mechanism and a position-wise fully connected feed-forward network. The decoder also has a third sub-layer which performs multi-head attention over the output of the encoder stack.
+</td>
+  </tr>
+  <tr>
+    <td>
+
+ <div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3.2 Attention</b>
+        </div>
+        <div class="collapse-content">
+Imagine you're in a classroom and the teacher asks a question. Some students (the "keys") raise their hands to answer, and the teacher (the "query") picks the best answer (the "value"). The Transformer does something similar, but it can listen to multiple teachers asking questions at the same time.
+</td>
+    <td>
+
+<div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3.2 Attention</b>
+        </div>
+        <div class="collapse-content">
+The paper describes the attention function as mapping a query and a set of key-value pairs to an output. The authors introduce a variant called "Scaled Dot-Product Attention". They also introduce "Multi-Head Attention" which allows the model to attend to information from different representation subspaces at different positions.
+</td>
+  </tr>
+  <tr>
+    <td>
+
+<div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3.3 Position-wise Feed-Forward Networks</b>
+        </div>
+        <div class="collapse-content">
+After the attention workers look at all the toys, there's another worker at each station. This worker takes each toy and does a special job with it. This job is the same for each toy and doesn't depend on the other toys.
+</td>
+    <td>
+<div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3.3 Position-wise Feed-Forward Networks</b>
+        </div>
+        <div class="collapse-content">
+Each layer in the encoder and decoder contains a fully connected feed-forward network, which is applied to each position separately and identically. This consists of two linear transformations with a ReLU activation in between.
+</td>
+  </tr>
+  <tr>
+    <td>
+<div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3.4 Embeddings and Softmax</b>
+        </div>
+        <div class="collapse-content">
+The Transformer has a special machine that turns words into Lego blocks (embeddings) that it can work with. After the Transformer is done, it uses another machine to turn the Lego blocks back into words (softmax).
+</td>
+    <td>
+<div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3.4 Embeddings and Softmax</b>
+        </div>
+        <div class="collapse-content">
+The model uses learned embeddings to convert the input tokens and output tokens to vectors. A learned linear transformation and softmax function are used to convert the decoder output to predicted next-token probabilities.
+</td>
+  </tr>
+  <tr>
+    <td>
+
+<div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3.4 Positional Encoding</b>
+        </div>
+        <div class="collapse-content">
+The Transformer needs to know the order of the words, like knowing that "cat chases mouse" is not the same as "mouse chases cat". To do this, it uses a special trick with sine and cosine, which are like special types of swings that go back and forth in a specific way.
+</td>
+    <td>
+
+<div class="collapse-title" onclick="toggleCollapse(event)">
+          <b>3.4 Positional Encoding</b>
+        </div>
+        <div class="collapse-content">
+Since the model contains no recurrence and no convolution, positional encodings are added to the input embeddings to make use of the order of the sequence. The authors use sine and cosine functions of different frequencies for the positional encodings.
+</td>
+  </tr>
+</table>
+
 </html>
+
+
