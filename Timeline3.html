@@ -2,6 +2,8 @@
 <head>
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -21,6 +23,25 @@
         .active::after {
             content: " ▼";
         }
+
+
+          body {
+            position: relative;
+        }
+
+        .background-image {
+
+		background-image: url('https://i.imgur.com/cUc4wLB.png'); /* Replace with the path to your image */
+   		 background-repeat: no-repeat;
+  		  background-position: right bottom; /* Position the image at the bottom right */
+   		 background-size: 100px; /* Adjust the size of the image */
+   		 opacity: 0.5; /* Make the image semi-transparent */
+   		 position: fixed; /* Keep the image in the corner even when scrolling */
+   		 bottom: 0;
+   		 right: 0;
+   		 width: 100px; /* Match the width to the background-size */
+    		height: 100px; /* Match the height to the background-size */
+	}
     </style>
     <script>
         function toggleCollapse(event) {
@@ -38,11 +59,32 @@
     </script>
 </head>
 
-
 <body>
-<h2> A Timeline of AI Research Papers </h2>
+
+<h2>A Timeline of (some) Important AI Research Papers</h2>
+
+<div class="background-image"></div> <!-- Background image div -->
+
+<div style="position: absolute; right: 10px; top: 10px; border: 1px solid black; padding: 10px; width: 300px;">
+    <div style="display: flex; align-items: center; margin: 5px;">
+        <div style="background-color: blue; width: 10px; height: 10px; border-radius: 50%;"></div>
+        <span style="margin-left: 10px;">General AI</span>
+    </div>
+    <div style="display: flex; align-items: center; margin: 5px;">
+        <div style="background-color: red; width: 10px; height: 10px; border-radius: 50%;"></div>
+        <span style="margin-left: 10px;">LLM</span>
+    </div>
+    <div style="display: flex; align-items: center; margin: 5px;">
+        <div style="background-color: yellow; width: 10px; height: 10px; border-radius: 50%;"></div>
+        <span style="margin-left: 10px;">Stable diffusion</span>
+    </div>
+</div>
+
+
+
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
+
 
 // Set the dimensions of the canvas / graph
 var margin = {top: 30, right: 20, bottom: 30, left: 50},
@@ -78,17 +120,18 @@ var tooltip = d3.select("body").append("div")
 
 // Get the data
 var data = [
-    {event: "Generative Adversarial Networks", year: "2014", link: "https://proceedings.neurips.cc/paper_files/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf", description: "todo"},
-    {event: "TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems", year: "2016", link: "https://arxiv.org/abs/1603.04467", description: "todo"},
-    {event: "Attention is All You Need", year: "2017", link: "https://arxiv.org/pdf/1706.03762.pdf", description: "Introduced the concept of attention in neural networks."},
-    {event: "Deep reinforcement learning from human preferences", year: "2017", link: "https://arxiv.org/pdf/1706.03741.pdf", description: "introduced a way for computer programs to learn complex tasks by getting feedback from humans, rather than relying on predefined goals"},
-    {event: "Equivalence Between Policy Gradients and Soft Q-Learning", year: "2017", link: "https://arxiv.org/pdf/1704.06440.pdf", description: "helped bridge the gap between two major approaches to reinforcement learning: value-based methods and policy-based methods"},
-    {event: "Improving Language Understanding by Generative Pre-Training", year: "2018", link: "https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf", description: "showed that a computer program can get better at understanding and using language by first learning from lots of text, and then fine-tuning its knowledge with specific tasks."},
-    {event: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", year: "2018", link: "https://arxiv.org/abs/1810.04805", description: "todo"},
-    {event: "An Empirical Model of Large-Batch Training", year: "2018", link: "https://arxiv.org/pdf/1812.06162.pdf", description: "showed that there's an optimal size for the groups of examples used to train AI models, and this size can be predicted using a measure they call the 'gradient noise scale'."},
-    {event: "Scaling Laws for for Neural Language Models", year: "2020", link: "https://arxiv.org/pdf/2001.08361.pdf", description: " discovered that the performance of language models improves predictably as we increase the model size, dataset size, and compute power, and that the most efficient training involves using very large models and stopping before they fully learn the dataset."},
-    {event: "Language Models are Few-Shot Learners", year: "2020", link: "https://arxiv.org/pdf/2005.14165.pdf", description: "Showed that big language models can learn to do a variety of tasks well with just a few examples"},
-    {event: "High-Resolution Image Synthesis with Latent Diffusion Models", year: "2021", link: "https://openaccess.thecvf.com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf", description: "responsible for stable diffusion"},   
+   {event: "Generative Adversarial Networks", year: "2014", link: "https://proceedings.neurips.cc/paper_files/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf", description: "introduced the concept of Generative Adversarial Networks (GANs). GANs are a class of artificial intelligence algorithms used in unsupervised machine learning", color: "blue"},
+    {event: "TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems", year: "2016", link: "https://arxiv.org/abs/1603.04467", description: "introduced TensorFlow, a flexible interface for implementing and executing machine learning algorithms across a wide variety of heterogeneous systems", color: "blue"},
+    {event: "Attention is All You Need", year: "2017", link: "https://arxiv.org/pdf/1706.03762.pdf", description: "Introduced the concept of attention in neural networks.", color: "red"},
+    {event: "Deep reinforcement learning from human preferences", year: "2017", link: "https://arxiv.org/pdf/1706.03741.pdf", description: "introduced a way for computer programs to learn complex tasks by getting feedback from humans, rather than relying on predefined goals", color: "blue"},
+    {event: "Equivalence Between Policy Gradients and Soft Q-Learning", year: "2017", link: "https://arxiv.org/pdf/1704.06440.pdf", description: "helped bridge the gap between two major approaches to reinforcement learning: value-based methods and policy-based methods", color: "blue"},
+    {event: "Improving Language Understanding by Generative Pre-Training", year: "2018", link: "https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf", description: "showed that a computer program can get better at understanding and using language by first learning from lots of text, and then fine-tuning its knowledge with specific tasks.", color: "red"},
+    {event: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", year: "2018", link: "https://arxiv.org/abs/1810.04805", description: "introduced a new model for understanding language context in machine learning: considering the context from both the left and the right during training", color: "red"},
+    {event: "An Empirical Model of Large-Batch Training", year: "2018", link: "https://arxiv.org/pdf/1812.06162.pdf", description: "showed that there's an optimal size for the groups of examples used to train AI models, and this size can be predicted using a measure they call the 'gradient noise scale'.", color: "blue"},
+    {event: "Scaling Laws for for Neural Language Models", year: "2020", link: "https://arxiv.org/pdf/2001.08361.pdf", description: " discovered that the performance of language models improves predictably as we increase the model size, dataset size, and compute power, and that the most efficient training involves using very large models and stopping before they fully learn the dataset.", color: "red"},
+    {event: "Language Models are Few-Shot Learners", year: "2020", link: "https://arxiv.org/pdf/2005.14165.pdf", description: "Showed that big language models can learn to do a variety of tasks well with just a few examples", color: "red"},
+    {event: "High-Resolution Image Synthesis with Latent Diffusion Models", year: "2021", link: "https://openaccess.thecvf.com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf", description: "responsible for stable diffusion", color: "yellow"},   
+    {event: "Zero-shot Text-to-Image Generation", year: "2021", link: "https://arxiv.org/abs/2102.12092", description: "todo", color: "yellow"},
 ];
 
 data.forEach(function(d) {
@@ -133,23 +176,41 @@ var outerDots = svg.selectAll("dot")
     .attr("cx", function(d) { return x(d.year); })
     .attr("cy", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) 
     .attr("fill", "white")
-    .attr("stroke", "black"); // Add a stroke to make the outer circle visible
+    .attr("stroke", "black") // Add a stroke to make the outer circle visible
+    .each(function(d) { d.pulseCount = 0; }); // Initialize a pulse count for each circle
+
+function pulse(selection) {
+    if (selection.datum().pulseCount < 3) { // Only pulse 5 times
+        selection.datum().pulseCount++; // Increment pulse count
+        selection.transition()
+            .duration(1000)
+            .attr("r", 12) // Decrease the size of the pulse
+            .transition()
+            .duration(1000)
+            .attr("r", 10)
+            .on("end", function() { pulse(d3.select(this)); }); // when the transition finishes, call pulse again on this circle
+    }
+}
+
+outerDots.each(function() { pulse(d3.select(this)); }); // start the pulse on each circle
+
+
+
 
 var dots = svg.selectAll("dot")
     .data(data)
     .enter().append("circle")
     .attr("r", 5)
     .attr("cx", function(d) { return x(d.year); })
-    .attr("cy", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) // Changed from 20 to 30
-    .attr("fill", "red")
+    .attr("cy", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); })
+    .attr("fill", function(d) { return d.color || "grey"; }) // Use the color property, or default to grey if it's not defined
     .on("mouseover", function(d) {
-    	tooltip.transition()
-    	.duration(200)
-    	.style("opacity", .9);
-   	 tooltip.html('<a href="' + d.link + '" target="_blank">Link to paper</a><br>' + d.description)
-   	 .style("left", (d3.event.pageX + 5) + "px")
-    	.style("top", (d3.event.pageY - 28) + "px");})
-
+        tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+        tooltip.html('<a href="' + d.link + '" target="_blank">Link to paper</a><br>' + d.description)
+        .style("left", (d3.event.pageX + 5) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");})
     .on("mouseout", function(d) {
         tooltip.transition()
         .duration(2000)
@@ -158,9 +219,10 @@ var dots = svg.selectAll("dot")
 
 </script>
 
+
 <div style="margin-top: 20px; padding: 10px; border: 1px solid black; width: 80%; margin-left: auto; margin-right: auto; border-radius: 10px;">
     <h2>Tip:</h2>
-    <p>You can use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> to help with understanding these papers.</p>
+    <p>You can use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> to help understand these papers.</p>
     <p>Example prompts (click to copy):</p>
    <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; I am a recruiter at a top AI research lab. As a recruiter, I do not have a technical background, and have some trouble understanding the heavy language used in AI research papers. However, it is important for me to understand the fundamentals of AI for my job. Can I provide you a paper, and you summarize each section in a way that is similar to an "explain like I'm 5" (ELI5) explanation?</p>
 
@@ -356,4 +418,3 @@ Since the model contains no recurrence and no convolution, positional encodings 
 </table>
 
 </html>
-
