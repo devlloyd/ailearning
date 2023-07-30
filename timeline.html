@@ -6,7 +6,7 @@
 
     <style>
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
         .tooltip {
             cursor: pointer;
@@ -29,6 +29,11 @@
             position: relative;
         }
 
+	.dark-mode text {
+   	 fill: #ffffff; /* or any other color you want for dark mode */
+	}
+
+
         .background-image {
 
 		background-image: url('https://i.imgur.com/cUc4wLB.png'); /* Replace with the path to your image */
@@ -42,6 +47,16 @@
    		 width: 100px; /* Match the width to the background-size */
     		height: 100px; /* Match the height to the background-size */
 	}
+
+
+	.dark-mode {
+    		background-color: #121212;
+    		color: #ffffff;
+	}
+	.dark-mode a {
+  		  color: #bb86fc;
+	}
+
     </style>
     <script>
         function toggleCollapse(event) {
@@ -119,20 +134,94 @@ var tooltip = d3.select("body").append("div")
     .style("padding", "10px")
     .style("cursor", "pointer");  // Change cursor to pointer on hover
 
-// Get the data
+// Event Objects
 var data = [
-   {event: "Generative Adversarial Networks", year: "2014", link: "https://proceedings.neurips.cc/paper_files/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf", description: "introduced the concept of Generative Adversarial Networks (GANs). GANs are a class of artificial intelligence algorithms used in unsupervised machine learning", color: "blue"},
-    {event: "TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems", year: "2016", link: "https://arxiv.org/abs/1603.04467", description: "introduced TensorFlow, a flexible interface for implementing and executing machine learning algorithms across a wide variety of heterogeneous systems", color: "blue"},
-    {event: "Attention is All You Need", year: "2017", link: "https://arxiv.org/pdf/1706.03762.pdf", description: "Introduced the concept of attention in neural networks.", color: "red"},
-    {event: "Deep reinforcement learning from human preferences", year: "2017", link: "https://arxiv.org/pdf/1706.03741.pdf", description: "introduced a way for computer programs to learn complex tasks by getting feedback from humans, rather than relying on predefined goals", color: "blue"},
-    {event: "Equivalence Between Policy Gradients and Soft Q-Learning", year: "2017", link: "https://arxiv.org/pdf/1704.06440.pdf", description: "helped bridge the gap between two major approaches to reinforcement learning: value-based methods and policy-based methods", color: "blue"},
-    {event: "Improving Language Understanding by Generative Pre-Training", year: "2018", link: "https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf", description: "showed that a computer program can get better at understanding and using language by first learning from lots of text, and then fine-tuning its knowledge with specific tasks.", color: "red"},
-    {event: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", year: "2018", link: "https://arxiv.org/abs/1810.04805", description: "introduced a new model for understanding language context in machine learning: considering the context from both the left and the right during training", color: "red"},
-    {event: "An Empirical Model of Large-Batch Training", year: "2018", link: "https://arxiv.org/pdf/1812.06162.pdf", description: "showed that there's an optimal size for the groups of examples used to train AI models, and this size can be predicted using a measure they call the 'gradient noise scale'.", color: "blue"},
-    {event: "Scaling Laws for for Neural Language Models", year: "2020", link: "https://arxiv.org/pdf/2001.08361.pdf", description: " discovered that the performance of language models improves predictably as we increase the model size, dataset size, and compute power, and that the most efficient training involves using very large models and stopping before they fully learn the dataset.", color: "red"},
-    {event: "Language Models are Few-Shot Learners", year: "2020", link: "https://arxiv.org/pdf/2005.14165.pdf", description: "Showed that big language models can learn to do a variety of tasks well with just a few examples", color: "red"},
-    {event: "High-Resolution Image Synthesis with Latent Diffusion Models", year: "2021", link: "https://openaccess.thecvf.com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf", description: "responsible for stable diffusion", color: "yellow"},   
-    {event: "Zero-shot Text-to-Image Generation", year: "2021", link: "https://arxiv.org/abs/2102.12092", description: "demonstrated that a large transformer model, when trained on a vast amount of image-text pairs, can generate high-quality images from textual descriptions", color: "yellow"},
+{
+    event: "Generative Adversarial Networks",
+    year: "2014",
+    link: "https://proceedings.neurips.cc/paper_files/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf",
+    description: "introduced the concept of Generative Adversarial Networks (GANs). GANs are a class of artificial intelligence algorithms used in unsupervised machine learning",
+    color: "blue",
+    video: "https://www.youtube.com/watch?v=Sw9r8CL98N0"
+},
+{
+    event: "TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems",
+    year: "2016",
+    link: "https://arxiv.org/abs/1603.04467",
+    description: "introduced TensorFlow, a flexible interface for implementing and executing machine learning algorithms across a wide variety of heterogeneous systems",
+    color: "blue"
+},
+{
+    event: "Attention is All You Need",
+    year: "2017",
+    link: "https://arxiv.org/pdf/1706.03762.pdf",
+    description: "Introduced the concept of attention in neural networks.",
+    color: "red"
+},
+{
+    event: "Deep reinforcement learning from human preferences",
+    year: "2017",
+    link: "https://arxiv.org/pdf/1706.03741.pdf",
+    description: "introduced a way for computer programs to learn complex tasks by getting feedback from humans, rather than relying on predefined goals",
+    color: "blue"
+},
+{
+    event: "Equivalence Between Policy Gradients and Soft Q-Learning",
+    year: "2017",
+    link: "https://arxiv.org/pdf/1704.06440.pdf",
+    description: "helped bridge the gap between two major approaches to reinforcement learning: value-based methods and policy-based methods",
+    color: "blue"
+},
+{
+    event: "Improving Language Understanding by Generative Pre-Training",
+    year: "2018",
+    link: "https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf",
+    description: "showed that a computer program can get better at understanding and using language by first learning from lots of text, and then fine-tuning its knowledge with specific tasks.",
+    color: "red"
+},
+{
+    event: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    year: "2018",
+    link: "https://arxiv.org/abs/1810.04805",
+    description: "introduced a new model for understanding language context in machine learning: considering the context from both the left and the right during training",
+    color: "red"
+},
+{
+    event: "An Empirical Model of Large-Batch Training",
+    year: "2018",
+    link: "https://arxiv.org/pdf/1812.06162.pdf",
+    description: "showed that there's an optimal size for the groups of examples used to train AI models, and this size can be predicted using a measure they call the 'gradient noise scale'.",
+    color: "blue"
+},
+{
+    event: "Scaling Laws for for Neural Language Models",
+    year: "2020",
+    link: "https://arxiv.org/pdf/2001.08361.pdf",
+    description: "discovered that the performance of language models improves predictably as we increase the model size, dataset size, and compute power, and that the most efficient training involves using very large models and stopping before they fully learn the dataset.",
+    color: "red"
+},
+{
+    event: "Language Models are Few-Shot Learners",
+    year: "2020",
+    link: "https://arxiv.org/pdf/2005.14165.pdf",
+    description: "Showed that big language models can learn to do a variety of tasks well with just a few examples",
+    color: "red"
+},
+{
+    event: "High-Resolution Image Synthesis with Latent Diffusion Models",
+    year: "2021",
+    link: "https://openaccess.thecvf.com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf",
+    description: "responsible for stable diffusion",
+    color: "yellow"
+},
+{
+    event: "Zero-shot Text-to-Image Generation",
+    year: "2021",
+    link: "https://arxiv.org/abs/2102.12092",
+    description: "demonstrated that a large transformer model, when trained on a vast amount of image-text pairs, can generate high-quality images from textual descriptions",
+    color: "yellow"
+},
+
 ];
 
 data.forEach(function(d) {
@@ -210,12 +299,12 @@ var dots = svg.selectAll("dot")
         tooltip.transition()
         .duration(200)
         .style("opacity", .9);
-        tooltip.html('<a href="' + d.link + '" target="_blank">Link to paper</a><br>' + d.description)
+        tooltip.html('<a href="' + d.link + '" target="_blank">Link to paper</a><br>' + d.description + '<br><a href="' + d.video + '" target="_blank">Video</a>') 
         .style("left", (d3.event.pageX + 5) + "px")
         .style("top", (d3.event.pageY - 28) + "px");})
     .on("mouseout", function(d) {
         tooltip.transition()
-        .duration(2000)
+        .duration(4000)
         .style("opacity", 0);
     });
 
@@ -223,9 +312,9 @@ var dots = svg.selectAll("dot")
 
 
 <div style="margin-top: 20px; padding: 10px; border: 1px solid black; width: 80%; margin-left: auto; margin-right: auto; border-radius: 10px;">
-    <p>You can use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> to help understand these papers.</p>
+    <p>Use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> to help understand these papers.</p>
     <p>Example prompts (click to copy):</p>
-   <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; I am a recruiter at a top AI research lab. As a recruiter, I do not have a technical background, and have some trouble understanding the heavy language used in AI research papers. However, it is important for me to understand the fundamentals of AI for my job. Can I provide you a paper, and you summarize each section in a way that is similar to an "explain like I'm 5" (ELI5) explanation?</p>
+   <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; I am a recruiter at a top AI research lab. As a recruiter, I do not have a technical background, and have some trouble understanding research papers. However, it is important for me to understand the fundamentals of AI for my job. I'll provide you a paper, can you summarize each section in a way that is similar to an "explain like I'm 5" (ELI5)?</p>
 
 <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me each section but in plain language?</p>
 
@@ -238,7 +327,7 @@ var dots = svg.selectAll("dot")
 <br> 3. Read the original paper
 </p>
 
-<p> Ask ChatGPT questions as you go along about anything you are unclear on. You'll likely be surprised how ambiguous questions are understood, and clarified. </p>
+<p> Ask ChatGPT questions as you go along. You'll be surprised how ambiguous questions are understood, and clarified. </p>
 
 </div>
 
@@ -268,7 +357,11 @@ function copyToClipboard(element, popupId) {
 
 </script>
 
-
+<script>
+  document.getElementById('darkModeToggle').addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+  });
+</script>
 
 </body>
 
@@ -426,4 +519,8 @@ Since the model contains no recurrence and no convolution, positional encodings 
   </tr>
 </table>
 
+
+<div style="height: 100px;"></div>
+
 </html>
+
