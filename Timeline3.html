@@ -6,7 +6,7 @@
 
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'DM Sans', sans-serif;
         }
         .tooltip {
             cursor: pointer;
@@ -61,7 +61,8 @@
 
 <body>
 
-<h2>A Timeline of (some) Important AI Research Papers</h2>
+<h1>A Timeline of (some) Important AI Research Papers</h2>
+
 
 <div class="background-image"></div> <!-- Background image div -->
 
@@ -131,7 +132,7 @@ var data = [
     {event: "Scaling Laws for for Neural Language Models", year: "2020", link: "https://arxiv.org/pdf/2001.08361.pdf", description: " discovered that the performance of language models improves predictably as we increase the model size, dataset size, and compute power, and that the most efficient training involves using very large models and stopping before they fully learn the dataset.", color: "red"},
     {event: "Language Models are Few-Shot Learners", year: "2020", link: "https://arxiv.org/pdf/2005.14165.pdf", description: "Showed that big language models can learn to do a variety of tasks well with just a few examples", color: "red"},
     {event: "High-Resolution Image Synthesis with Latent Diffusion Models", year: "2021", link: "https://openaccess.thecvf.com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf", description: "responsible for stable diffusion", color: "yellow"},   
-    {event: "Zero-shot Text-to-Image Generation", year: "2021", link: "https://arxiv.org/abs/2102.12092", description: "todo", color: "yellow"},
+    {event: "Zero-shot Text-to-Image Generation", year: "2021", link: "https://arxiv.org/abs/2102.12092", description: "demonstrated that a large transformer model, when trained on a vast amount of image-text pairs, can generate high-quality images from textual descriptions", color: "yellow"},
 ];
 
 data.forEach(function(d) {
@@ -160,6 +161,7 @@ svg.selectAll(".text")
     .attr("y", function(d) { return d.event == "Improving Language Understanding by Generative Pre-Training" ? y(d.event) + 30 : y(d.event); }) // Changed from 20 to 30
     .text(function(d) { return d.event; })
     .attr("font-size", "10px")
+    .attr("font-weight", "bold")
     .attr("dx", "10px");
 
 // Add the X Axis
@@ -184,7 +186,7 @@ function pulse(selection) {
         selection.datum().pulseCount++; // Increment pulse count
         selection.transition()
             .duration(1000)
-            .attr("r", 12) // Decrease the size of the pulse
+            .attr("r", 15) // Decrease the size of the pulse
             .transition()
             .duration(1000)
             .attr("r", 10)
@@ -221,16 +223,22 @@ var dots = svg.selectAll("dot")
 
 
 <div style="margin-top: 20px; padding: 10px; border: 1px solid black; width: 80%; margin-left: auto; margin-right: auto; border-radius: 10px;">
-    <h2>Tip:</h2>
     <p>You can use <a href="https://chat.openai.com" target="_blank">ChatGPT</a> to help understand these papers.</p>
     <p>Example prompts (click to copy):</p>
    <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; I am a recruiter at a top AI research lab. As a recruiter, I do not have a technical background, and have some trouble understanding the heavy language used in AI research papers. However, it is important for me to understand the fundamentals of AI for my job. Can I provide you a paper, and you summarize each section in a way that is similar to an "explain like I'm 5" (ELI5) explanation?</p>
 
-<p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me each section but in plain language that a young adult might understand?</p>
+<p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me each section but in plain language?</p>
 
 <p class="copy-text" onclick="copyToClipboard(this, 'copy-notification')">&#128203; Can you give me the primary takeaway of the paper, in plain language?</p>
 
-<p> It is encouraged that you ask questions as you go along about anything you are unclear on. You'll likely be surprised how ambiguous questions are understood, and clarified. </p>
+
+<p> Take it slow, one step, and one paper at a time until you feel like you grasp it:
+<br> 1. Read the ELI5
+<br> 2. Read the plain language
+<br> 3. Read the original paper
+</p>
+
+<p> Ask ChatGPT questions as you go along about anything you are unclear on. You'll likely be surprised how ambiguous questions are understood, and clarified. </p>
 
 </div>
 
@@ -259,6 +267,7 @@ function copyToClipboard(element, popupId) {
 }
 
 </script>
+
 
 
 </body>
